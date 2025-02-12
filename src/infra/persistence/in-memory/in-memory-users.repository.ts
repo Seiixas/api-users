@@ -32,7 +32,21 @@ export class InMemoryUserRepository implements UserRepository {
     return this.users;
   }
 
-  async update(old: User, _new: Partial<User>): Promise<void> {
-    throw new Error('Method not implemented.');
+  async update(old: User, _new: Partial<User>): Promise<User> {
+    const index = this.users.findIndex((user) => user.id === old.id);
+
+    if (index === -1) {
+      throw new Error('User not found');
+    }
+
+    // Update fields using class methods if they exist
+    const user = this.users[index];
+
+    if (_new.name !== undefined) user.name = _new.name;
+    if (_new.email !== undefined) user.email = _new.email;
+    if (_new.password !== undefined) user.password = _new.password;
+    if (_new.role !== undefined) user.role = _new.role;
+
+    return user;
   }
 }
