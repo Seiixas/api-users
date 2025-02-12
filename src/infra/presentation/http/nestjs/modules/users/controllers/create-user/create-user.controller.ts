@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreateUserService } from 'src/core/modules/users/service';
-import { CreateUserDTO } from './create-user.body';
+import { CreateUserBody } from './create-user.body';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -32,7 +32,7 @@ export class CreateUserController {
     status: PASSWORD_SIZE_ERROR.statusCode,
     description: PASSWORD_SIZE_ERROR.message,
   })
-  async handle(@Body() createUserDTO: CreateUserDTO) {
+  async handle(@Body() createUserDTO: CreateUserBody) {
     return await this.createUserService.execute(createUserDTO);
   }
 }
