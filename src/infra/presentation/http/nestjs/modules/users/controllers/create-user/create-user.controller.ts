@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { CreateUserService } from 'src/core/modules/users/service';
 import { CreateUserBody } from './create-user.body';
 import {
@@ -13,6 +13,11 @@ import {
   PASSWORD_SIZE_ERROR,
   USER_ALREADY_EXISTS_ERROR,
 } from 'src/core/modules/users/errors';
+import { Actions } from '../../../ability/ability.factory';
+import { User } from 'src/domain/users';
+import { RolesGuard } from '../../../ability/abilities.guard';
+import { Roles } from '../../../ability/abilities.decorator';
+import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 
 @Controller('users')
 @ApiTags('users')
@@ -32,6 +37,8 @@ export class CreateUserController {
     status: PASSWORD_SIZE_ERROR.statusCode,
     description: PASSWORD_SIZE_ERROR.message,
   })
+  @Roles({ action: Actions.CREATE, subjects: User })
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async handle(@Body() createUserDTO: CreateUserBody) {
     return await this.createUserService.execute(createUserDTO);
   }

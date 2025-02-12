@@ -9,7 +9,6 @@ import {
 } from '@nestjs/swagger';
 import { AuthenticateUserService } from 'src/core/modules/auth/services';
 import { SignInBody } from './signin.body';
-import { UNAUTHORIZED_AUTH_ERROR } from 'src/core/modules/auth/errors';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -20,9 +19,9 @@ export class SignInController {
 
   @Post('signin')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Autenticar usuário.' })
+  @ApiOperation({ summary: 'Authenticate user.' })
   @ApiOkResponse({
-    description: 'Usuário autenticado com sucesso.',
+    description: 'User successfully authenticated.',
     schema: {
       type: 'object',
       properties: {
@@ -39,13 +38,13 @@ export class SignInController {
       },
     },
   })
-  @ApiBadRequestResponse({ description: 'Requisição inválida.' })
-  @ApiInternalServerErrorResponse({ description: 'Erro interno do servidor.' })
+  @ApiBadRequestResponse({ description: 'Invalid request.' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error.' })
   @ApiResponse({
-    status: UNAUTHORIZED_AUTH_ERROR.statusCode,
-    description: UNAUTHORIZED_AUTH_ERROR.message,
+    status: 401,
+    description: 'Unauthorized: Invalid email or password.',
   })
   async signIn(@Body() signInBody: SignInBody) {
-    return await this.authenticateUserService.execute(signInBody);
+    return this.authenticateUserService.execute(signInBody);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Delete, Param } from '@nestjs/common';
+import { Controller, Delete, Param, UseGuards } from '@nestjs/common';
 import {
   ApiInternalServerErrorResponse,
   ApiNoContentResponse,
@@ -8,6 +8,11 @@ import {
 } from '@nestjs/swagger';
 import { USER_NOT_FOUND_ERROR } from 'src/core/modules/users/errors';
 import { DeleteUserService } from 'src/core/modules/users/service';
+import { Roles } from '../../../ability/abilities.decorator';
+import { RolesGuard } from '../../../ability/abilities.guard';
+import { Actions } from '../../../ability/ability.factory';
+import { User } from 'src/domain/users';
+import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 
 @Controller('users')
 @ApiTags('users')
@@ -22,6 +27,9 @@ export class DeleteUserController {
     status: USER_NOT_FOUND_ERROR.statusCode,
     description: USER_NOT_FOUND_ERROR.message,
   })
+  @Roles({ action: Actions.DELETE, subjects: User })
+  @Roles({ action: Actions.DELETE_ANY, subjects: User })
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async handle(@Param('id') id: string) {
     return await this.deleteUserService.execute({ id });
   }

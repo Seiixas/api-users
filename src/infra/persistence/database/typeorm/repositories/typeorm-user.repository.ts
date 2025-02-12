@@ -30,12 +30,15 @@ export class TypeORMUserRepository implements UserRepository {
     return users.map((user) => UserMapper.toDomain(user));
   }
 
-  async update(old: User, _new: Partial<User>): Promise<User> {
-    const updated = await this._repository.save({
-      ...old,
-      ..._new,
-    });
+  async update(id: string, data: Partial<User>): Promise<User> {
+    const user = await this._repository
+      .createQueryBuilder()
+      .update(UserEntity)
+      .set(data)
+      .where('id = :id', { id })
+      .returning('*')
+      .execute();
 
-    return UserMapper.toDomain(updated);
+    return UserMapper.toDomain(user.raw[0]);
   }
 }

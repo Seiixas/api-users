@@ -3,5 +3,5 @@ export abstract class Repository<T> {
   abstract find({ where }: { where: Partial<T> }): Promise<T | null>;
   abstract remove(item: T): Promise<void>;
   abstract all(): Promise<T[]>;
-  abstract update(old: T, _new: Partial<T>): Promise<T>;
+  abstract update(id: string, data: Partial<T>): Promise<T>;
 }

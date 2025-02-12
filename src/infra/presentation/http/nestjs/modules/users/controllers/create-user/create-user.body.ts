@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { EUserRoles } from 'src/domain/users';
 
 export class CreateUserBody {
   @ApiProperty({
@@ -29,4 +36,14 @@ export class CreateUserBody {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @ApiProperty({
+    type: String,
+    example: 'STANDARD',
+    description: 'Função do usuário.',
+    required: false,
+  })
+  @IsEnum(EUserRoles)
+  @IsOptional()
+  role?: EUserRoles;
 }

@@ -1,5 +1,5 @@
 import { InMemoryUserRepository } from '../../../../../infra/persistence/in-memory/in-memory-users.repository';
-import { User, UserRepository } from '../../../../../domain/users';
+import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
 import { UpdateUserService } from './update-user.service';
 import { HasherPort } from '../../../../../core/ports';
 import { InMemoryHasherAdapter } from '../../../../../infra/adapters/hasher.adapter';
@@ -25,7 +25,7 @@ describe('Update User Use Case', () => {
         name: 'John Doe',
         email: 'john@doe.com',
         password: await hasherPort.hash('my-secret-password'),
-        role: '',
+        role: EUserRoles.STANDARD,
       }),
     );
 
@@ -35,7 +35,7 @@ describe('Update User Use Case', () => {
         name: 'Same Doe',
         email: 'same@doe.com',
         password: await hasherPort.hash('same-secret-password'),
-        role: '',
+        role: EUserRoles.STANDARD,
       }),
     );
 
@@ -45,7 +45,7 @@ describe('Update User Use Case', () => {
         name: 'Same Doe',
         email: 'same@doe.com',
         password: await hasherPort.hash('same-secret-password'),
-        role: '',
+        role: EUserRoles.STANDARD,
       }),
     );
   });

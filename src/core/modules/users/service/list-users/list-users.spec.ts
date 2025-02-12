@@ -1,5 +1,5 @@
 import { InMemoryUserRepository } from '../../../../../infra/persistence/in-memory/in-memory-users.repository';
-import { User, UserRepository } from '../../../../../domain/users';
+import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
 import { ListUsersService } from './list-users.service';
 
 let listUsersService: ListUsersService;
@@ -16,7 +16,7 @@ describe('List Users Use Case', () => {
         name: 'John Doe',
         email: 'john@doe.com',
         password: 'my-secret-password',
-        role: '',
+        role: EUserRoles.STANDARD,
       }),
     );
 
@@ -26,7 +26,7 @@ describe('List Users Use Case', () => {
         name: 'Mary Doe',
         email: 'mary@doe.com',
         password: 'mari-secret-password',
-        role: '',
+        role: EUserRoles.STANDARD,
       }),
     );
   });

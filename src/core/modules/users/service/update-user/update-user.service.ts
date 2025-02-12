@@ -1,5 +1,5 @@
 import { CoreService } from '../../../../../core/shared/services/core.service';
-import { User, UserRepository } from '../../../../../domain/users';
+import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
 import {
   PASSWORD_SIZE_ERROR,
   USER_ALREADY_EXISTS_ERROR,
@@ -12,7 +12,7 @@ type Request = {
   name?: string;
   email?: string;
   password?: string;
-  role?: string;
+  role?: EUserRoles;
 };
 
 type Response = User;
@@ -28,12 +28,14 @@ export class UpdateUserService implements CoreService<Request, Response> {
 
     if (!user) throw USER_NOT_FOUND_ERROR;
 
-    const userAlreadyExists = await this.usersRepository.find({
-      where: { email: request.email },
-    });
+    if (request.email) {
+      const userAlreadyExists = await this.usersRepository.find({
+        where: { email: request.email },
+      });
 
-    if (userAlreadyExists && userAlreadyExists.id !== user.id) {
-      throw USER_ALREADY_EXISTS_ERROR;
+      if (userAlreadyExists && userAlreadyExists.id !== user.id) {
+        throw USER_ALREADY_EXISTS_ERROR;
+      }
     }
 
     user.name = request.name || user.name;
@@ -45,10 +47,15 @@ export class UpdateUserService implements CoreService<Request, Response> {
       user.password = await this.hasherPort.hash(request.password);
     }
 
-    const userUpdated = new User(user);
+    const updateUserRequest = new User(user);
 
-    await this.usersRepository.update(user, userUpdated);
+    const userUpdated = await this.usersRepository.update(user.id, {
+      name: updateUserRequest.name,
+      email: updateUserRequest.email,
+      password: updateUserRequest.password,
+      role: updateUserRequest.role,
+    });
 
-    return user;
+    return userUpdated;
   }
 }

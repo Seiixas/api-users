@@ -1,8 +1,7 @@
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { HasherPort } from 'src/core/ports';
 import { JwtPort } from 'src/core/ports/jwt.port';
-import { UserRepository } from 'src/domain/users';
-import { UNAUTHORIZED_AUTH_ERROR } from '../../errors/unauthorized-auth.error';
-import { CoreService } from 'src/core/shared/services/core.service';
+import { EUserRoles, UserRepository } from 'src/domain/users';
 
 type Request = {
   email: string;
@@ -15,11 +14,12 @@ type Response = {
     id: string;
     name: string;
     email: string;
-    role: string;
+    role: EUserRoles;
   };
 };
 
-class AuthenticateUserService implements CoreService<Request, Response> {
+@Injectable()
+class AuthenticateUserService {
   constructor(
     private readonly usersRepository: UserRepository,
     private readonly hashPort: HasherPort,
@@ -29,15 +29,26 @@ class AuthenticateUserService implements CoreService<Request, Response> {
   async execute({ email, password }: Request): Promise<Response> {
     const user = await this.usersRepository.find({ where: { email } });
 
-    if (!user) throw UNAUTHORIZED_AUTH_ERROR;
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
 
-    const passwordMatches = this.hashPort.compare(password, user.password);
+    const passwordMatches = await this.hashPort.compare(
+      password,
+      user.password,
+    );
 
-    if (!passwordMatches) throw UNAUTHORIZED_AUTH_ERROR;
+    if (!passwordMatches) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
 
     const token = this.jwtPort.sign({
-      email: user.email,
       id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     });
 
     return {

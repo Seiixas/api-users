@@ -1,3 +1,4 @@
+import { EUserRoles } from 'src/domain/users';
 import {
   Column,
   CreateDateColumn,
@@ -5,12 +6,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-enum UserRole {
-  STANDARD = 'STANDARD',
-  MANAGER = 'MANAGER',
-  ADMIN = 'ADMIN',
-}
 
 @Entity('users')
 export class UserEntity {
@@ -28,10 +23,10 @@ export class UserEntity {
 
   @Column({
     type: 'enum',
-    enum: UserRole,
-    default: UserRole.STANDARD,
+    enum: EUserRoles,
+    default: EUserRoles.STANDARD,
   })
-  role: UserRole;
+  role: EUserRoles;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

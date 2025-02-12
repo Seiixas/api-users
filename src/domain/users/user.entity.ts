@@ -1,17 +1,23 @@
 import { BaseConstructorProps, Entity } from '../shared/entity/entity';
 
+export enum EUserRoles {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  STANDARD = 'STANDARD',
+}
+
 interface ConstructorProps extends BaseConstructorProps {
   name: string;
   email: string;
   password: string;
-  role: any;
+  role?: EUserRoles;
 }
 
 export class User extends Entity {
   private _name: string;
   private _email: string;
   private _password: string;
-  private _role: any;
+  private _role: EUserRoles;
 
   constructor(props: ConstructorProps) {
     super({
@@ -23,7 +29,7 @@ export class User extends Entity {
     this._name = props.name;
     this._email = props.email;
     this._password = props.password;
-    this._role = props.role;
+    this._role = props.role || EUserRoles.STANDARD;
   }
 
   get name(): string {
@@ -53,12 +59,24 @@ export class User extends Entity {
     this._updatedAt = new Date();
   }
 
-  get role(): any {
+  get role(): EUserRoles {
     return this._role;
   }
 
-  set role(role: any) {
+  set role(role: EUserRoles) {
     this._role = role;
     this._updatedAt = new Date();
+  }
+
+  get allProps(): ConstructorProps {
+    return {
+      id: this._id,
+      name: this._name,
+      email: this._email,
+      password: this._password,
+      role: this._role,
+      createdAt: this._createdAt,
+      updatedAt: this._updatedAt,
+    };
   }
 }

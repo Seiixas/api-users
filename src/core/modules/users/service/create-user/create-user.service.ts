@@ -1,5 +1,5 @@
 import { CoreService } from '../../../../../core/shared/services/core.service';
-import { User, UserRepository } from '../../../../../domain/users';
+import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
 import { PASSWORD_SIZE_ERROR, USER_ALREADY_EXISTS_ERROR } from '../../errors';
 import { HasherPort } from '../../../../../core/ports';
 
@@ -7,6 +7,7 @@ type Request = {
   name: string;
   email: string;
   password: string;
+  role?: EUserRoles;
 };
 
 type Response = User;
@@ -36,7 +37,7 @@ export class CreateUserService implements CoreService<Request, Response> {
       name: payload.name,
       email: payload.email,
       password: hashedPassword,
-      role: '',
+      ...(payload.role && { role: payload.role }),
     });
 
     await this.usersRepository.store(user);
