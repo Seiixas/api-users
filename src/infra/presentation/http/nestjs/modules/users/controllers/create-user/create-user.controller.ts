@@ -3,6 +3,7 @@ import { CreateUserService } from 'src/core/modules/users/service';
 import { CreateUserBody } from './create-user.body';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiOperation,
@@ -21,6 +22,7 @@ import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 
 @Controller('users')
 @ApiTags('users')
+@ApiBearerAuth()
 export class CreateUserController {
   constructor(private readonly createUserService: CreateUserService) {}
 

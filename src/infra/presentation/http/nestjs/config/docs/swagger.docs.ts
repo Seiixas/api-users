@@ -1,4 +1,5 @@
 import { DocumentBuilder, OpenAPIObject } from '@nestjs/swagger';
+import { Env } from 'src/shared/env';
 
 type SwaggerConfig = Omit<OpenAPIObject, 'paths'>;
 
@@ -7,5 +8,6 @@ export const swaggerConfig: SwaggerConfig = new DocumentBuilder()
   .setVersion('1.0')
   .setDescription('Documentação da API do projeto GoingTest.')
   .addTag('users')
-  .setBasePath('http://localhost:3000')
+  .addBearerAuth()
+  .addServer(Env.SERVER_URL)
   .build();

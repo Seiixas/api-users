@@ -12,6 +12,9 @@ class EnvVariables {
 
   @IsString()
   SECRET: string;
+
+  @IsString()
+  SERVER_URL: string;
 }
 
 function validateEnv(config: Record<string, unknown>) {

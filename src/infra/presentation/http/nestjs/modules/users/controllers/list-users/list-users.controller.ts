@@ -1,5 +1,6 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOperation,
   ApiResponse,
@@ -15,6 +16,7 @@ import { ListUsersToView, ListUsersToViewResponse } from './list-users.toview';
 
 @Controller('users')
 @ApiTags('users')
+@ApiBearerAuth()
 export class ListUsersController {
   constructor(private readonly listUsersService: ListUsersService) {}
 

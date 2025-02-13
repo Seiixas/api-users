@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiNoContentResponse,
   ApiOperation,
@@ -26,6 +27,7 @@ import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 
 @Controller('users')
 @ApiTags('users')
+@ApiBearerAuth()
 export class UpdateUserController {
   constructor(private readonly updateUserService: UpdateUserService) {}
 

@@ -1,5 +1,6 @@
 import { Controller, Delete, Param, UseGuards } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiNoContentResponse,
   ApiOperation,
@@ -16,6 +17,7 @@ import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 
 @Controller('users')
 @ApiTags('users')
+@ApiBearerAuth()
 export class DeleteUserController {
   constructor(private readonly deleteUserService: DeleteUserService) {}
 

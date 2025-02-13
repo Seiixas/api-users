@@ -1,5 +1,6 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiOperation,
   ApiResponse,
@@ -19,6 +20,7 @@ import {
 
 @Controller('users')
 @ApiTags('users')
+@ApiBearerAuth()
 export class UserProfileController {
   constructor(private readonly userProfileService: UserProfileService) {}
 
