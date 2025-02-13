@@ -6,7 +6,7 @@ export enum EUserRoles {
   STANDARD = 'STANDARD',
 }
 
-interface ConstructorProps extends BaseConstructorProps {
+export interface UserProps extends BaseConstructorProps {
   name: string;
   email: string;
   password: string;
@@ -19,7 +19,7 @@ export class User extends Entity {
   private _password: string;
   private _role: EUserRoles;
 
-  constructor(props: ConstructorProps) {
+  constructor(props: UserProps) {
     super({
       id: props.id,
       createdAt: props.createdAt,
@@ -68,7 +68,7 @@ export class User extends Entity {
     this._updatedAt = new Date();
   }
 
-  get allProps(): ConstructorProps {
+  get allProps(): UserProps {
     return {
       id: this._id,
       name: this._name,

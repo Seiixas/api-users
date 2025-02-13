@@ -28,13 +28,11 @@ describe('Create User Use Case', () => {
 
   it('should not be able to create an user with a password smaller than 8 characters', () => {
     expect(async () => {
-      const r = await createUserService.execute({
+      await createUserService.execute({
         name: 'John Doe',
         email: 'john@doe.com',
         password: '1234567',
       });
-
-      console.log(r);
     }).rejects.toBe(PASSWORD_SIZE_ERROR);
   });
 

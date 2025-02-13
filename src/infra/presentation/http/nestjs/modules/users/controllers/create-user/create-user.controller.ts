@@ -39,7 +39,7 @@ export class CreateUserController {
   })
   @Roles({ action: Actions.CREATE, subjects: User })
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async handle(@Body() createUserDTO: CreateUserBody) {
-    return await this.createUserService.execute(createUserDTO);
+  async handle(@Body() createUserDTO: CreateUserBody): Promise<void> {
+    await this.createUserService.execute(createUserDTO);
   }
 }

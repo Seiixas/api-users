@@ -11,6 +11,7 @@ import { RolesGuard } from '../../../ability/abilities.guard';
 import { Actions } from '../../../ability/ability.factory';
 import { User } from 'src/domain/users';
 import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
+import { ListUsersToView, ListUsersToViewResponse } from './list-users.toview';
 
 @Controller('users')
 @ApiTags('users')
@@ -31,6 +32,7 @@ export class ListUsersController {
           id: { type: 'string' },
           name: { type: 'string' },
           email: { type: 'string' },
+          role: { type: 'string' },
           created_at: { type: 'string' },
           updated_at: { type: 'string' },
         },
@@ -39,7 +41,7 @@ export class ListUsersController {
   })
   @Roles({ action: Actions.READ_ANY, subjects: User })
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async handle() {
-    return await this.listUsersService.execute();
+  async handle(): Promise<ListUsersToViewResponse> {
+    return ListUsersToView.toView(await this.listUsersService.execute());
   }
 }

@@ -12,6 +12,10 @@ import { Actions } from '../../../ability/ability.factory';
 import { User } from 'src/domain/users';
 import { RolesGuard } from '../../../ability/abilities.guard';
 import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
+import {
+  UserProfileToView,
+  UserProfileToViewResponse,
+} from './user-profile.toview';
 
 @Controller('users')
 @ApiTags('users')
@@ -30,6 +34,7 @@ export class UserProfileController {
         id: { type: 'string' },
         name: { type: 'string' },
         email: { type: 'string' },
+        role: { type: 'string' },
         created_at: { type: 'string' },
         updated_at: { type: 'string' },
       },
@@ -42,7 +47,9 @@ export class UserProfileController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles({ action: Actions.READ, subjects: User })
   @Roles({ action: Actions.READ_ANY, subjects: User })
-  async handle(@Param('id') id: string) {
-    return await this.userProfileService.execute({ id });
+  async handle(@Param('id') id: string): Promise<UserProfileToViewResponse> {
+    return UserProfileToView.toView(
+      await this.userProfileService.execute({ id }),
+    );
   }
 }

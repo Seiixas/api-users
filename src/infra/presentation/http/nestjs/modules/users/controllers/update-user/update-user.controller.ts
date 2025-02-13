@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   ForbiddenException,
+  HttpCode,
+  HttpStatus,
   Param,
   Put,
   Request,
@@ -10,7 +12,7 @@ import {
 import {
   ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
-  ApiOkResponse,
+  ApiNoContentResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
@@ -28,8 +30,9 @@ export class UpdateUserController {
   constructor(private readonly updateUserService: UpdateUserService) {}
 
   @Put(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Atualiza um usuário.' })
-  @ApiOkResponse({ description: 'Usuário atualizado com sucesso.' })
+  @ApiNoContentResponse({ description: 'Usuário atualizado com sucesso.' })
   @ApiBadRequestResponse({ description: 'Requisição inválida.' })
   @ApiInternalServerErrorResponse({ description: 'Erro interno do servidor.' })
   @Roles({ action: Actions.EDIT, subjects: User })
