@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { UsersModule } from '../users/users.module';
-import { DatabaseModule } from '../../injections/database.module';
-import { AdaptersModule } from '../../injections/adapters.module';
-import { LocalStrategy } from './strategies/local.strategy';
-import { JwtStrategy } from './strategies/jwt.strategy';
+
 import { AuthenticateUserService } from '@/core/modules/auth/services';
-import { UserRepository } from '@/domain/users';
 import { HasherPort } from '@/core/ports';
 import { JwtPort } from '@/core/ports/jwt.port';
+import { UserRepository } from '@/domain/users';
+
+import { AdaptersModule } from '../../injections/adapters.module';
+import { DatabaseModule } from '../../injections/database.module';
+import { UsersModule } from '../users/users.module';
 import { SignInController } from './controllers/signin/signin.controller';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [PassportModule, UsersModule, DatabaseModule, AdaptersModule],

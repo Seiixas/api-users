@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+
 import { HasherPort } from '@/core/ports';
 import { JwtPort } from '@/core/ports/jwt.port';
 import { EUserRoles, UserRepository } from '@/domain/users';
+
 import { UNAUTHORIZED_AUTH_ERROR } from '../../errors';
 
 type Request = {

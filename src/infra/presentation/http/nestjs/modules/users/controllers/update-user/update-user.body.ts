@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+
 import { EUserRoles } from '@/domain/users';
 
 export class UpdateUserBody {

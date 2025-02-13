@@ -6,12 +6,14 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { USER_NOT_FOUND_ERROR } from '@/core/modules/users/errors';
 import { UserProfileService } from '@/core/modules/users/service';
-import { Roles } from '../../../ability/abilities.decorator';
-import { Actions } from '../../../ability/ability.factory';
 import { User } from '@/domain/users';
+
+import { Roles } from '../../../ability/abilities.decorator';
 import { RolesGuard } from '../../../ability/abilities.guard';
+import { Actions } from '../../../ability/ability.factory';
 import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 import {
   UserProfileToView,

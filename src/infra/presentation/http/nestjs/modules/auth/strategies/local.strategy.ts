@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
+
 import { AuthenticateUserService } from '@/core/modules/auth/services';
 import { CoreError } from '@/core/shared/errors/core.error';
 

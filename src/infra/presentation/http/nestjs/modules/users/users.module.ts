@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CreateUserController } from './controllers/create-user/create-user.controller';
+
 import {
   CreateUserService,
   DeleteUserService,
@@ -7,16 +7,18 @@ import {
   UpdateUserService,
   UserProfileService,
 } from '@/core/modules/users/service';
-import { UserRepository } from '@/domain/users';
 import { HasherPort } from '@/core/ports';
-import { DatabaseModule } from '../../injections/database.module';
+import { UserRepository } from '@/domain/users';
+
 import { AdaptersModule } from '../../injections/adapters.module';
-import { DeleteUserController } from './controllers/delete-user/delete-user.controller';
-import { ListUsersController } from './controllers/list-users/list-users.controller';
-import { UserProfileController } from './controllers/user-profile/user-profile.controller';
+import { DatabaseModule } from '../../injections/database.module';
 import { AbilityModule } from '../ability/ability.module';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy';
+import { CreateUserController } from './controllers/create-user/create-user.controller';
+import { DeleteUserController } from './controllers/delete-user/delete-user.controller';
+import { ListUsersController } from './controllers/list-users/list-users.controller';
 import { UpdateUserController } from './controllers/update-user/update-user.controller';
+import { UserProfileController } from './controllers/user-profile/user-profile.controller';
 
 @Module({
   imports: [DatabaseModule, AdaptersModule, AbilityModule],

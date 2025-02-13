@@ -1,6 +1,7 @@
 import { CoreService } from '@/core/shared/services/core.service';
-import { USER_NOT_FOUND_ERROR } from '../../errors';
 import { UserRepository } from '@/domain/users';
+
+import { USER_NOT_FOUND_ERROR } from '../../errors';
 
 type Request = {
   id: string;

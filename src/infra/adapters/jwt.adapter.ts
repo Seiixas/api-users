@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+
 import { JwtPort } from '@/core/ports/jwt.port';
 
 export class InMemoryJwtAdapter implements JwtPort {

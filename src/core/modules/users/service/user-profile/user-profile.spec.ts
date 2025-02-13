@@ -1,7 +1,7 @@
-import { InMemoryUserRepository } from '../../../../../infra/persistence/in-memory/in-memory-users.repository';
 import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
-import { UserProfileService } from './user-profile.service';
+import { InMemoryUserRepository } from '../../../../../infra/persistence/in-memory/in-memory-users.repository';
 import { USER_NOT_FOUND_ERROR } from '../../errors';
+import { UserProfileService } from './user-profile.service';
 
 let userProfileService: UserProfileService;
 let usersRepository: UserRepository;

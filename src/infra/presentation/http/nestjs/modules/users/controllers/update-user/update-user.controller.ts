@@ -17,13 +17,15 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { UpdateUserService } from '@/core/modules/users/service';
-import { UpdateUserBody } from './update-user.body';
+import { EUserRoles, User } from '@/domain/users';
+
 import { Roles } from '../../../ability/abilities.decorator';
 import { RolesGuard } from '../../../ability/abilities.guard';
 import { Actions } from '../../../ability/ability.factory';
-import { EUserRoles, User } from '@/domain/users';
 import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
+import { UpdateUserBody } from './update-user.body';
 
 @Controller('users')
 @ApiTags('users')

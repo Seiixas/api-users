@@ -1,4 +1,5 @@
 import { Module, Provider } from '@nestjs/common';
+
 import { HasherPort } from '@/core/ports';
 import { JwtPort } from '@/core/ports/jwt.port';
 import { HasherProviderBcrypt } from '@/infra/adapters/bcrypt-hasher.adapter';
@@ -7,7 +8,7 @@ import { InMemoryJwtAdapter } from '@/infra/adapters/jwt.adapter';
 import { NestJwtProvider } from '@/infra/adapters/nestjs-jwt.adapter';
 import { Env } from '@/shared/env';
 
-const inMemoryProviders: Provider[] = [
+const _inMemoryProviders: Provider[] = [
   {
     provide: HasherPort,
     useClass: InMemoryHasherAdapter,

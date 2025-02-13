@@ -1,7 +1,7 @@
+import { HasherPort } from '../../../../../core/ports';
 import { CoreService } from '../../../../../core/shared/services/core.service';
 import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
 import { PASSWORD_SIZE_ERROR, USER_ALREADY_EXISTS_ERROR } from '../../errors';
-import { HasherPort } from '../../../../../core/ports';
 
 type Request = {
   name: string;

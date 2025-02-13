@@ -1,13 +1,13 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class CreateUsersEntity1739402202760 implements MigrationInterface {
-    name = 'CreateUsersEntity1739402202760'
+  name = 'CreateUsersEntity1739402202760';
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
             CREATE TYPE "public"."users_role_enum" AS ENUM('STANDARD', 'MANAGER', 'ADMIN')
         `);
-        await queryRunner.query(`
+    await queryRunner.query(`
             CREATE TABLE "users" (
                 "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
                 "name" character varying NOT NULL,
@@ -20,15 +20,14 @@ export class CreateUsersEntity1739402202760 implements MigrationInterface {
                 CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id")
             )
         `);
-    }
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
             DROP TABLE "users"
         `);
-        await queryRunner.query(`
+    await queryRunner.query(`
             DROP TYPE "public"."users_role_enum"
         `);
-    }
-
+  }
 }

@@ -1,4 +1,3 @@
-import { EUserRoles } from '@/domain/users';
 import {
   Column,
   CreateDateColumn,
@@ -6,6 +5,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { EUserRoles } from '@/domain/users';
 
 @Entity('users')
 export class UserEntity {

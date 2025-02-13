@@ -1,11 +1,12 @@
-import { AuthenticateUserService } from './authenticate-user.service';
-import { EUserRoles, User, UserRepository } from '@/domain/users';
-import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
-import { InMemoryJwtAdapter } from '@/infra/adapters/jwt.adapter';
-import { JwtPort } from '@/core/ports/jwt.port';
 import { HasherPort } from '@/core/ports';
+import { JwtPort } from '@/core/ports/jwt.port';
+import { EUserRoles, User, UserRepository } from '@/domain/users';
 import { InMemoryHasherAdapter } from '@/infra/adapters/hasher.adapter';
+import { InMemoryJwtAdapter } from '@/infra/adapters/jwt.adapter';
+import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
+
 import { UNAUTHORIZED_AUTH_ERROR } from '../../errors';
+import { AuthenticateUserService } from './authenticate-user.service';
 
 let authenticateUserService: AuthenticateUserService;
 let usersRepository: UserRepository;

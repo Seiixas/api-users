@@ -1,6 +1,4 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { CreateUserService } from '@/core/modules/users/service';
-import { CreateUserBody } from './create-user.body';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -10,15 +8,19 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
 import {
   PASSWORD_SIZE_ERROR,
   USER_ALREADY_EXISTS_ERROR,
 } from '@/core/modules/users/errors';
-import { Actions } from '../../../ability/ability.factory';
+import { CreateUserService } from '@/core/modules/users/service';
 import { User } from '@/domain/users';
-import { RolesGuard } from '../../../ability/abilities.guard';
+
 import { Roles } from '../../../ability/abilities.decorator';
+import { RolesGuard } from '../../../ability/abilities.guard';
+import { Actions } from '../../../ability/ability.factory';
 import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
+import { CreateUserBody } from './create-user.body';
 
 @Controller('users')
 @ApiTags('users')

@@ -6,11 +6,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { ListUsersService } from '@/core/modules/users/service';
+import { User } from '@/domain/users';
+
 import { Roles } from '../../../ability/abilities.decorator';
 import { RolesGuard } from '../../../ability/abilities.guard';
 import { Actions } from '../../../ability/ability.factory';
-import { User } from '@/domain/users';
 import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 import { ListUsersToView, ListUsersToViewResponse } from './list-users.toview';
 

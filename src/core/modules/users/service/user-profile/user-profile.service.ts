@@ -1,5 +1,6 @@
 import { CoreService } from '@/core/shared/services/core.service';
 import { User, UserRepository } from '@/domain/users';
+
 import { USER_NOT_FOUND_ERROR } from '../../errors';
 
 type Request = {

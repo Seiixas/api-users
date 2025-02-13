@@ -1,8 +1,9 @@
 import { UserRepository } from '@/domain/users';
-import { CreateUserService } from './create-user.service';
-import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
 import { InMemoryHasherAdapter } from '@/infra/adapters/hasher.adapter';
+import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
+
 import { PASSWORD_SIZE_ERROR, USER_ALREADY_EXISTS_ERROR } from '../../errors';
+import { CreateUserService } from './create-user.service';
 
 let createUserService: CreateUserService;
 let hasherAdapter: InMemoryHasherAdapter;

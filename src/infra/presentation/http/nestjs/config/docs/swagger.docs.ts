@@ -1,4 +1,5 @@
 import { DocumentBuilder, OpenAPIObject } from '@nestjs/swagger';
+
 import { Env } from '@/shared/env';
 
 type SwaggerConfig = Omit<OpenAPIObject, 'paths'>;

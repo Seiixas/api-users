@@ -7,7 +7,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { AuthenticateUserService } from '@/core/modules/auth/services';
+
 import { SignInBody } from './signin.body';
 
 @Controller('auth')

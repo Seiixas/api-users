@@ -1,4 +1,5 @@
 import { compare as useCompare, hash } from 'bcrypt';
+
 import { HasherPort } from '@/core/ports';
 
 export class HasherProviderBcrypt implements HasherPort {
