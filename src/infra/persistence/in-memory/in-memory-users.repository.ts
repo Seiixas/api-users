@@ -33,6 +33,13 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   async update(id: string, data: Partial<User>): Promise<User> {
-    throw new Error('Method not implemented.');
+    const index = this.users.findIndex((user) => user.id === id);
+
+    this.users[index].name = data.name || this.users[index].name;
+    this.users[index].email = data.email || this.users[index].email;
+    this.users[index].password = data.password || this.users[index].password;
+    this.users[index].role = data.role || this.users[index].role;
+
+    return this.users[index];
   }
 }

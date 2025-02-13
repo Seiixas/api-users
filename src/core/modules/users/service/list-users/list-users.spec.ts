@@ -1,5 +1,5 @@
-import { InMemoryUserRepository } from '../../../../../infra/persistence/in-memory/in-memory-users.repository';
-import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
+import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
+import { EUserRoles, User, UserRepository } from '@/domain/users';
 import { ListUsersService } from './list-users.service';
 
 let listUsersService: ListUsersService;

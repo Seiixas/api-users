@@ -1,8 +1,8 @@
-import { InMemoryUserRepository } from '../../../../../infra/persistence/in-memory/in-memory-users.repository';
-import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
+import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
+import { EUserRoles, User, UserRepository } from '@/domain/users';
 import { UpdateUserService } from './update-user.service';
-import { HasherPort } from '../../../../../core/ports';
-import { InMemoryHasherAdapter } from '../../../../../infra/adapters/hasher.adapter';
+import { HasherPort } from '@/core/ports';
+import { InMemoryHasherAdapter } from '@/infra/adapters/hasher.adapter';
 import {
   PASSWORD_SIZE_ERROR,
   USER_ALREADY_EXISTS_ERROR,

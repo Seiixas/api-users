@@ -1,10 +1,10 @@
 import { AuthenticateUserService } from './authenticate-user.service';
-import { User, UserRepository } from '../../../../../domain/users';
-import { InMemoryUserRepository } from '../../../../../infra/persistence/in-memory/in-memory-users.repository';
-import { InMemoryJwtAdapter } from '../../../../../infra/adapters/jwt.adapter';
-import { JwtPort } from '../../../../../core/ports/jwt.port';
-import { HasherPort } from '../../../../../core/ports';
-import { InMemoryHasherAdapter } from '../../../../../infra/adapters/hasher.adapter';
+import { EUserRoles, User, UserRepository } from '@/domain/users';
+import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
+import { InMemoryJwtAdapter } from '@/infra/adapters/jwt.adapter';
+import { JwtPort } from '@/core/ports/jwt.port';
+import { HasherPort } from '@/core/ports';
+import { InMemoryHasherAdapter } from '@/infra/adapters/hasher.adapter';
 import { UNAUTHORIZED_AUTH_ERROR } from '../../errors';
 
 let authenticateUserService: AuthenticateUserService;
@@ -29,7 +29,7 @@ describe('Authenticate User Use Case', () => {
         name: 'John Doe',
         email: 'john@doe.com',
         password: await hasherAdapter.hash('my-secret-password'),
-        role: 'admin',
+        role: EUserRoles.STANDARD,
       }),
     );
   });
@@ -57,6 +57,15 @@ describe('Authenticate User Use Case', () => {
       authenticateUserService.execute({
         email: 'john-wrong@doe.com',
         password: 'my-secret-password',
+      }),
+    ).rejects.toBe(UNAUTHORIZED_AUTH_ERROR);
+  });
+
+  it('should not be able to authenticate a user with wrong e-mail and password', async () => {
+    await expect(
+      authenticateUserService.execute({
+        email: 'john-wrong@mail.com',
+        password: 'wrong-pass',
       }),
     ).rejects.toBe(UNAUTHORIZED_AUTH_ERROR);
   });

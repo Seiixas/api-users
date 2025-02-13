@@ -1,7 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { HasherPort } from '@/core/ports';
 import { JwtPort } from '@/core/ports/jwt.port';
 import { EUserRoles, UserRepository } from '@/domain/users';
+import { UNAUTHORIZED_AUTH_ERROR } from '../../errors';
 
 type Request = {
   email: string;
@@ -29,18 +30,14 @@ class AuthenticateUserService {
   async execute({ email, password }: Request): Promise<Response> {
     const user = await this.usersRepository.find({ where: { email } });
 
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
+    if (!user) throw UNAUTHORIZED_AUTH_ERROR;
 
     const passwordMatches = await this.hashPort.compare(
       password,
       user.password,
     );
 
-    if (!passwordMatches) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
+    if (!passwordMatches) throw UNAUTHORIZED_AUTH_ERROR;
 
     const token = this.jwtPort.sign({
       id: user.id,
