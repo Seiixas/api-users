@@ -1,5 +1,5 @@
 import { compare as useCompare, hash } from 'bcrypt';
-import { HasherPort } from 'src/core/ports';
+import { HasherPort } from '@/core/ports';
 
 export class HasherProviderBcrypt implements HasherPort {
   async hash(value: string): Promise<string> {

@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { JwtPort } from 'src/core/ports/jwt.port';
+import { JwtPort } from '@/core/ports/jwt.port';
 
 interface ConstructorProps {
   expiresIn: string;

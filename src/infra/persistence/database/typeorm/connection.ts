@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import { Env } from 'src/shared/env';
+import { Env } from '@/shared/env';
 import { DataSource } from 'typeorm';
 
 const migrationsDir = resolve(__dirname, 'migrations', '*{.ts,.js}');

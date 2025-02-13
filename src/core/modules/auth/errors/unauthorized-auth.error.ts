@@ -1,4 +1,4 @@
-import { CoreError } from '../../../shared/errors/core.error';
+import { CoreError } from '@/core/shared/errors/core.error';
 
 class UnauthorizedAuthError extends CoreError {
   constructor() {

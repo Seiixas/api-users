@@ -6,7 +6,7 @@ import {
   MongoAbility,
 } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
-import { EUserRoles, User } from 'src/domain/users';
+import { EUserRoles, User } from '@/domain/users';
 
 export enum Actions {
   READ = 'READ',

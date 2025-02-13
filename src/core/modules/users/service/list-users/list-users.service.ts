@@ -1,5 +1,5 @@
-import { CoreService } from 'src/core/shared/services/core.service';
-import { User, UserRepository } from 'src/domain/users';
+import { CoreService } from '@/core/shared/services/core.service';
+import { User, UserRepository } from '@/domain/users';
 
 type Request = void;
 

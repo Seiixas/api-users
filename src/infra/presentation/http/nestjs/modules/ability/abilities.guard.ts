@@ -8,9 +8,9 @@ import { Reflector } from '@nestjs/core';
 import { AbilityFactory } from './ability.factory';
 import { RULES, RequiredRules } from './abilities.decorator';
 import { ForbiddenError } from '@casl/ability';
-import { UserProfileService } from 'src/core/modules/users/service';
-import { User } from 'src/domain/users';
-import { USER_NOT_FOUND_ERROR } from 'src/core/modules/users/errors';
+import { UserProfileService } from '@/core/modules/users/service';
+import { User } from '@/domain/users';
+import { USER_NOT_FOUND_ERROR } from '@/core/modules/users/errors';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

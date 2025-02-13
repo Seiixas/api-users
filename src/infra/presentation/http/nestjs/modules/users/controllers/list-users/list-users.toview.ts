@@ -1,4 +1,4 @@
-import { User } from 'src/domain/users';
+import { User } from '@/domain/users';
 
 export type ListUsersToViewResponse = {
   id: string;

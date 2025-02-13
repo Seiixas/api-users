@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto';
-import { JwtPort } from 'src/core/ports/jwt.port';
+import { JwtPort } from '@/core/ports/jwt.port';
 
 export class InMemoryJwtAdapter implements JwtPort {
-  sign(_payload: any): string {
+  sign(_: any): string {
     return randomUUID();
   }
 

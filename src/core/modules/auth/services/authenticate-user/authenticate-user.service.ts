@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { HasherPort } from 'src/core/ports';
-import { JwtPort } from 'src/core/ports/jwt.port';
-import { EUserRoles, UserRepository } from 'src/domain/users';
+import { HasherPort } from '@/core/ports';
+import { JwtPort } from '@/core/ports/jwt.port';
+import { EUserRoles, UserRepository } from '@/domain/users';
 
 type Request = {
   email: string;

@@ -6,9 +6,9 @@ import {
   ListUsersService,
   UpdateUserService,
   UserProfileService,
-} from 'src/core/modules/users/service';
-import { UserRepository } from 'src/domain/users';
-import { HasherPort } from 'src/core/ports';
+} from '@/core/modules/users/service';
+import { UserRepository } from '@/domain/users';
+import { HasherPort } from '@/core/ports';
 import { DatabaseModule } from '../../injections/database.module';
 import { AdaptersModule } from '../../injections/adapters.module';
 import { DeleteUserController } from './controllers/delete-user/delete-user.controller';

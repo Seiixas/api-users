@@ -1,4 +1,4 @@
-import { User, UserRepository } from 'src/domain/users';
+import { User, UserRepository } from '@/domain/users';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { UserMapper } from '../mappers/typeorm-user.mapper';

@@ -1,4 +1,4 @@
-import { EUserRoles } from 'src/domain/users';
+import { EUserRoles } from '@/domain/users';
 import {
   Column,
   CreateDateColumn,

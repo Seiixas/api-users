@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { AuthenticateUserService } from 'src/core/modules/auth/services';
-import { CoreError } from 'src/core/shared/errors/core.error';
+import { AuthenticateUserService } from '@/core/modules/auth/services';
+import { CoreError } from '@/core/shared/errors/core.error';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {

@@ -1,6 +1,6 @@
-import { CoreService } from 'src/core/shared/services/core.service';
+import { CoreService } from '@/core/shared/services/core.service';
 import { USER_NOT_FOUND_ERROR } from '../../errors';
-import { UserRepository } from 'src/domain/users';
+import { UserRepository } from '@/domain/users';
 
 type Request = {
   id: string;

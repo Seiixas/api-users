@@ -1,10 +1,10 @@
 import { Module, Provider } from '@nestjs/common';
-import { UserRepository } from 'src/domain/users';
-import { dataSource } from 'src/infra/persistence/database/typeorm/connection';
-import { UserEntity } from 'src/infra/persistence/database/typeorm/entities/user.entity';
-import { TypeORMUserRepository } from 'src/infra/persistence/database/typeorm/repositories/typeorm-user.repository';
-import { TypeOrmService } from 'src/infra/persistence/database/typeorm/typeorm.service';
-import { InMemoryUserRepository } from 'src/infra/persistence/in-memory/in-memory-users.repository';
+import { UserRepository } from '@/domain/users';
+import { dataSource } from '@/infra/persistence/database/typeorm/connection';
+import { UserEntity } from '@/infra/persistence/database/typeorm/entities/user.entity';
+import { TypeORMUserRepository } from '@/infra/persistence/database/typeorm/repositories/typeorm-user.repository';
+import { TypeOrmService } from '@/infra/persistence/database/typeorm/typeorm.service';
+import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
 
 const inMemoryProviders: Provider[] = [
   {

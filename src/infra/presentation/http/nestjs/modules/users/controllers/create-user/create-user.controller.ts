@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { CreateUserService } from 'src/core/modules/users/service';
+import { CreateUserService } from '@/core/modules/users/service';
 import { CreateUserBody } from './create-user.body';
 import {
   ApiBadRequestResponse,
@@ -13,9 +13,9 @@ import {
 import {
   PASSWORD_SIZE_ERROR,
   USER_ALREADY_EXISTS_ERROR,
-} from 'src/core/modules/users/errors';
+} from '@/core/modules/users/errors';
 import { Actions } from '../../../ability/ability.factory';
-import { User } from 'src/domain/users';
+import { User } from '@/domain/users';
 import { RolesGuard } from '../../../ability/abilities.guard';
 import { Roles } from '../../../ability/abilities.decorator';
 import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';

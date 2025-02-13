@@ -1,4 +1,4 @@
-import { User as UserLocal } from 'src/domain/users';
+import { User as UserLocal } from '@/domain/users';
 import { UserEntity as UserTypeOrm } from '../entities/user.entity';
 
 export class UserMapper {

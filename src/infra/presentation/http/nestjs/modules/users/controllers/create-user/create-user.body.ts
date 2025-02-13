@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { EUserRoles } from 'src/domain/users';
+import { EUserRoles } from '@/domain/users';
 
 export class CreateUserBody {
   @ApiProperty({
