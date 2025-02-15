@@ -7,7 +7,10 @@ import {
   UpdateUserService,
   UserProfileService,
 } from '@/core/modules/users/service';
+import { ActivateUserService } from '@/core/modules/users/service/activate-user/activate-user.service';
 import { HasherPort } from '@/core/ports';
+import { CachePort } from '@/core/ports/cache.port';
+import { MailPort } from '@/core/ports/mail.port';
 import { StoragePort } from '@/core/ports/storage.port';
 import { UserRepository } from '@/domain/users';
 
@@ -15,6 +18,7 @@ import { AdaptersModule } from '../../injections/adapters.module';
 import { DatabaseModule } from '../../injections/database.module';
 import { AbilityModule } from '../ability/ability.module';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy';
+import { ActivateUserController } from './controllers/activate-user/activate-user.controller';
 import { CreateUserController } from './controllers/create-user/create-user.controller';
 import { DeleteUserController } from './controllers/delete-user/delete-user.controller';
 import { ListUsersController } from './controllers/list-users/list-users.controller';
@@ -29,6 +33,7 @@ import { UserProfileController } from './controllers/user-profile/user-profile.c
     ListUsersController,
     UserProfileController,
     UpdateUserController,
+    ActivateUserController,
   ],
   providers: [
     JwtStrategy,
@@ -38,8 +43,17 @@ import { UserProfileController } from './controllers/user-profile/user-profile.c
         usersRepository: UserRepository,
         hasherPort: HasherPort,
         storagePort: StoragePort,
-      ) => new CreateUserService(usersRepository, hasherPort, storagePort),
-      inject: [UserRepository, HasherPort, StoragePort],
+        mailPort: MailPort,
+        cachePort: CachePort,
+      ) =>
+        new CreateUserService(
+          usersRepository,
+          hasherPort,
+          storagePort,
+          mailPort,
+          cachePort,
+        ),
+      inject: [UserRepository, HasherPort, StoragePort, MailPort, CachePort],
     },
     {
       provide: DeleteUserService,
@@ -67,6 +81,12 @@ import { UserProfileController } from './controllers/user-profile/user-profile.c
         storagePort: StoragePort,
       ) => new UpdateUserService(usersRepository, hasherPort, storagePort),
       inject: [UserRepository, HasherPort, StoragePort],
+    },
+    {
+      provide: ActivateUserService,
+      useFactory: (usersRepository: UserRepository, cachePort: CachePort) =>
+        new ActivateUserService(usersRepository, cachePort),
+      inject: [UserRepository, CachePort],
     },
   ],
 })

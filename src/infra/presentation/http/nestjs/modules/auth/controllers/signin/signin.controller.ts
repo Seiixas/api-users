@@ -8,6 +8,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+import { ACCOUNT_NOT_ACTIVATED_ERROR } from '@/core/modules/auth/errors/account-not-activated.error';
 import { AuthenticateUserService } from '@/core/modules/auth/services';
 
 import { SignInBody } from './signin.body';
@@ -45,6 +46,10 @@ export class SignInController {
   @ApiResponse({
     status: 401,
     description: 'Unauthorized: Invalid email or password.',
+  })
+  @ApiResponse({
+    status: ACCOUNT_NOT_ACTIVATED_ERROR.statusCode,
+    description: ACCOUNT_NOT_ACTIVATED_ERROR.message,
   })
   async signIn(@Body() signInBody: SignInBody) {
     return this.authenticateUserService.execute(signInBody);

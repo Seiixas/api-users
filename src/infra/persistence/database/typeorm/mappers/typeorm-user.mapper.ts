@@ -11,6 +11,7 @@ export class UserMapper {
     userTypeOrm.email = user.email;
     userTypeOrm.avatar = user.avatar;
     userTypeOrm.password = user.password;
+    userTypeOrm.isActivated = user.isActivated;
     userTypeOrm.createdAt = user.createdAt;
     userTypeOrm.updatedAt = user.updatedAt;
 
@@ -22,6 +23,7 @@ export class UserMapper {
       id: user.id,
       name: user.name,
       email: user.email,
+      isActivated: user.isActivated,
       password: user.password,
       avatar: user.avatar,
       role: user.role,

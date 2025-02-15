@@ -30,6 +30,27 @@ class EnvVariables {
 
   @IsString()
   AWS_ENDPOINT: string;
+
+  @IsString()
+  MAIL_FROM: string;
+
+  @IsString()
+  MAIL_HOST: string;
+
+  @IsNumber()
+  MAIL_PORT: number;
+
+  @IsString()
+  MAIL_USER: string;
+
+  @IsString()
+  MAIL_PASS: string;
+
+  @IsString()
+  REDIS_URL: string;
+
+  @IsString()
+  WEB_URL: string;
 }
 
 function validateEnv(config: Record<string, unknown>) {

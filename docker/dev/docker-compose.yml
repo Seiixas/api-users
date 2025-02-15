@@ -35,7 +35,6 @@ services:
       - going2test_network
     volumes:
       - pgdata:/data/postgres
-
   going2test-minio:
     container_name: going2test-minio
     build:
@@ -54,6 +53,24 @@ services:
       - MINIO_ROOT_PASSWORD=going2minio
       - MINIO_DEFAULT_BUCKETS=g2bucket
       - MINIO_REGION=us-east-1
+  going2test-mailhog:
+    container_name: going2test-mailhog
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+  going2test-cache:
+    container_name: going2test-cache
+    image: redis:7.2.1-alpine
+    tty: true
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - going2test_network
+    volumes:
+      - reedisdata:/data
 
 networks:
   going2test_network:
@@ -64,4 +81,6 @@ volumes:
   pgdata:
     driver: local
   minio_data:
+    driver: local
+  reedisdata:
     driver: local

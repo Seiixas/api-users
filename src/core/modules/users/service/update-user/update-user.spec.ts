@@ -1,6 +1,8 @@
 import { HasherPort } from '@/core/ports';
+import { StoragePort } from '@/core/ports/storage.port';
 import { EUserRoles, User, UserRepository } from '@/domain/users';
 import { InMemoryHasherAdapter } from '@/infra/adapters/hasher.adapter';
+import { LocalStorageAdapter } from '@/infra/adapters/local-storage.adapter';
 import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
 
 import {
@@ -13,12 +15,18 @@ import { UpdateUserService } from './update-user.service';
 let updateUserService: UpdateUserService;
 let hasherPort: HasherPort;
 let usersRepository: UserRepository;
+let storagePort: StoragePort;
 
 describe('Update User Use Case', () => {
   beforeEach(async () => {
     usersRepository = new InMemoryUserRepository();
     hasherPort = new InMemoryHasherAdapter();
-    updateUserService = new UpdateUserService(usersRepository, hasherPort);
+    storagePort = new LocalStorageAdapter();
+    updateUserService = new UpdateUserService(
+      usersRepository,
+      hasherPort,
+      storagePort,
+    );
 
     usersRepository.store(
       new User({

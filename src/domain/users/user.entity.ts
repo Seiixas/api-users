@@ -10,6 +10,7 @@ export interface UserProps extends BaseConstructorProps {
   name: string;
   email: string;
   password: string;
+  isActivated?: boolean;
   avatar?: string;
   role?: EUserRoles;
 }
@@ -18,6 +19,7 @@ export class User extends Entity {
   private _name: string;
   private _email: string;
   private _password: string;
+  private _isActivated?: boolean;
   private _avatar?: string;
   private _role: EUserRoles;
 
@@ -32,6 +34,7 @@ export class User extends Entity {
     this._email = props.email;
     this._password = props.password;
     this._avatar = props.avatar;
+    this._isActivated = props.isActivated || false;
     this._role = props.role || EUserRoles.STANDARD;
   }
 
@@ -80,6 +83,15 @@ export class User extends Entity {
     this._updatedAt = new Date();
   }
 
+  get isActivated(): boolean | undefined {
+    return this._isActivated;
+  }
+
+  set isActivated(isActivated: boolean | undefined) {
+    this._isActivated = isActivated;
+    this._updatedAt = new Date();
+  }
+
   get allProps(): UserProps {
     return {
       id: this._id,
@@ -87,6 +99,7 @@ export class User extends Entity {
       email: this._email,
       avatar: this._avatar,
       password: this._password,
+      isActivated: this._isActivated,
       role: this._role,
       createdAt: this._createdAt,
       updatedAt: this._updatedAt,

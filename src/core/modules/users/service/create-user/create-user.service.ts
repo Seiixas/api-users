@@ -1,3 +1,8 @@
+import * as ejs from 'ejs';
+import { resolve } from 'path';
+
+import { CachePort } from '@/core/ports/cache.port';
+import { MailPort } from '@/core/ports/mail.port';
 import { StoragePort } from '@/core/ports/storage.port';
 
 import { HasherPort } from '../../../../../core/ports';
@@ -20,6 +25,8 @@ export class CreateUserService implements CoreService<Request, Response> {
     private readonly usersRepository: UserRepository,
     private readonly hasherPort: HasherPort,
     private readonly storagePort: StoragePort,
+    private readonly mailPort: MailPort,
+    private readonly cachePort: CachePort,
   ) {}
 
   async execute(payload: Request): Promise<Response> {
@@ -56,6 +63,35 @@ export class CreateUserService implements CoreService<Request, Response> {
     }
 
     await this.usersRepository.store(user);
+
+    const welcomeMailTemplate = resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      '..',
+      '..',
+      '..',
+      'assets',
+      'mail-templates',
+      'welcome.ejs',
+    );
+
+    const activationCode = crypto.randomUUID().split('-')[0];
+
+    const ONE_HOURS_IN_SECONDS = 60 * 60;
+    this.cachePort.set(activationCode, user.id, ONE_HOURS_IN_SECONDS);
+
+    const emailBody = await ejs.renderFile(welcomeMailTemplate, {
+      code: activationCode,
+    });
+
+    this.mailPort.sendMail({
+      to: user.email,
+      subject: `Bem-vindo, ${user.name}! Ative sua conta`,
+      body: emailBody,
+    });
 
     return user;
   }

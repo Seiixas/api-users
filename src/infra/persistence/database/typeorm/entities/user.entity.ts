@@ -22,6 +22,9 @@ export class UserEntity {
   @Column({ nullable: true })
   avatar?: string;
 
+  @Column({ name: 'is_activated', default: false })
+  isActivated: boolean;
+
   @Column()
   password: string;
 
