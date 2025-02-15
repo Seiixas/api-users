@@ -1,5 +1,6 @@
 import { Repository } from 'typeorm';
 
+import { AllParams } from '@/domain/shared/repository/repository';
 import { User, UserRepository } from '@/domain/users';
 
 import { UserEntity } from '../entities/user.entity';
@@ -26,10 +27,15 @@ export class TypeORMUserRepository implements UserRepository {
     await this._repository.delete(item.id);
   }
 
-  async all(): Promise<User[]> {
-    const users = await this._repository.find();
+  async all(filters?: AllParams): Promise<[User[], number]> {
+    const [users, total] = await this._repository.findAndCount({
+      skip: (filters.page - 1) * filters.limit,
+      take: filters.limit,
+      ...(filters.role && { where: { role: filters.role } }),
+      ...(filters.name && { where: { name: filters.name } }),
+    });
 
-    return users.map((user) => UserMapper.toDomain(user));
+    return [users.map(UserMapper.toDomain), total];
   }
 
   async update(id: string, data: Partial<User>): Promise<User> {

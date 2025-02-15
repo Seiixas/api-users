@@ -1,3 +1,5 @@
+import { AllParams } from '@/domain/shared/repository/repository';
+
 import { User, UserRepository } from '../../../domain/users';
 
 export class InMemoryUserRepository implements UserRepository {
@@ -28,8 +30,18 @@ export class InMemoryUserRepository implements UserRepository {
     this.users.splice(index, 1);
   }
 
-  async all(): Promise<User[]> {
-    return this.users;
+  async all(filters: AllParams): Promise<[User[], number]> {
+    let usersFilter = this.users;
+
+    if (filters.name) {
+      usersFilter = this.users.filter((user) => user.name === filters.name);
+    }
+
+    if (filters.role) {
+      usersFilter = this.users.filter((user) => user.role === filters.role);
+    }
+
+    return [usersFilter.slice(filters.page, filters.limit), this.users.length];
   }
 
   async update(id: string, data: Partial<User>): Promise<User> {

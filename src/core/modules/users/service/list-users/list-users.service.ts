@@ -1,15 +1,25 @@
 import { CoreService } from '@/core/shared/services/core.service';
-import { User, UserRepository } from '@/domain/users';
+import { EUserRoles, User, UserRepository } from '@/domain/users';
 
-type Request = void;
+type Request = {
+  page: number;
+  limit: number;
+  name?: string;
+  role?: EUserRoles;
+};
 
-type Response = User[];
+type Response = [User[], number];
 
 export class ListUsersService implements CoreService<Request, Response> {
   constructor(private readonly usersRepository: UserRepository) {}
 
-  async execute(): Promise<Response> {
-    const users = await this.usersRepository.all();
+  async execute({ page, limit, name, role }: Request): Promise<Response> {
+    const users = await this.usersRepository.all({
+      page,
+      limit,
+      name,
+      role,
+    });
 
     return users;
   }

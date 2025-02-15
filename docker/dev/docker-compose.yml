@@ -1,0 +1,46 @@
+services:
+  going2test-api:
+    container_name: going2test-api
+    build:
+      context: ../..
+      dockerfile: docker/dev/Dockerfile
+    tty: true
+    ports:
+      - 9090:9090
+    networks:
+      - going2test_network
+    volumes:
+      - ../../.:/usr/app/
+    env_file: ../../.env
+    environment:
+      - PORT=9090
+      - DATABASE_URL=postgres://postgres:postgres@going2test-db:5432/going2db
+    depends_on:
+      - 'going2test-db'
+    links:
+      - 'going2test-db'
+    entrypoint: wait-for going2test-db:5432 -t 40 -- pnpm start:dev
+  going2test-db:
+    image: postgres:16.0-alpine
+    container_name: going2test-db
+    tty: true
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=going2db
+    ports:
+      - 5450:5450
+    networks:
+      - going2test_network
+    volumes:
+      - pgdata:/data/postgres
+
+networks:
+  going2test_network:
+    name: going2test_network
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
