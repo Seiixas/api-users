@@ -1,3 +1,5 @@
+import { StoragePort } from '@/core/ports/storage.port';
+
 import { HasherPort } from '../../../../../core/ports';
 import { CoreService } from '../../../../../core/shared/services/core.service';
 import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
@@ -12,6 +14,7 @@ type Request = {
   name?: string;
   email?: string;
   password?: string;
+  avatar?: Express.Multer.File;
   role?: EUserRoles;
 };
 
@@ -21,6 +24,7 @@ export class UpdateUserService implements CoreService<Request, Response> {
   constructor(
     private readonly usersRepository: UserRepository,
     private readonly hasherPort: HasherPort,
+    private readonly storagePort: StoragePort,
   ) {}
 
   async execute(request: Request): Promise<Response> {
@@ -47,6 +51,20 @@ export class UpdateUserService implements CoreService<Request, Response> {
       user.password = await this.hasherPort.hash(request.password);
     }
 
+    if (request.avatar) {
+      if (user.avatar) {
+        await this.storagePort.delete(user.avatar);
+      }
+
+      user.avatar = await this.storagePort.putFile({
+        file: request.avatar.buffer,
+        filename: `${user.id}-${new Date().toISOString()}.png`,
+        contentType: request.avatar.mimetype,
+        isPublic: true,
+        contentDisposition: 'inline; filename=filename.png',
+      });
+    }
+
     const updateUserRequest = new User(user);
 
     const userUpdated = await this.usersRepository.update(user.id, {
@@ -54,6 +72,7 @@ export class UpdateUserService implements CoreService<Request, Response> {
       email: updateUserRequest.email,
       password: updateUserRequest.password,
       role: updateUserRequest.role,
+      avatar: updateUserRequest.avatar,
     });
 
     return userUpdated;

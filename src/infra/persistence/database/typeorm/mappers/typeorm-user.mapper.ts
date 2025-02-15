@@ -9,6 +9,7 @@ export class UserMapper {
     userTypeOrm.id = user.id;
     userTypeOrm.name = user.name;
     userTypeOrm.email = user.email;
+    userTypeOrm.avatar = user.avatar;
     userTypeOrm.password = user.password;
     userTypeOrm.createdAt = user.createdAt;
     userTypeOrm.updatedAt = user.updatedAt;
@@ -22,6 +23,7 @@ export class UserMapper {
       name: user.name,
       email: user.email,
       password: user.password,
+      avatar: user.avatar,
       role: user.role,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,

@@ -15,6 +15,21 @@ class EnvVariables {
 
   @IsString()
   SERVER_URL: string;
+
+  @IsString()
+  AWS_REGION: string;
+
+  @IsString()
+  AWS_ACCESS_KEY_ID: string;
+
+  @IsString()
+  AWS_SECRET_ACCESS_KEY: string;
+
+  @IsString()
+  AWS_BUCKET_NAME: string;
+
+  @IsString()
+  AWS_ENDPOINT: string;
 }
 
 function validateEnv(config: Record<string, unknown>) {

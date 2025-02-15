@@ -8,6 +8,7 @@ import {
   UserProfileService,
 } from '@/core/modules/users/service';
 import { HasherPort } from '@/core/ports';
+import { StoragePort } from '@/core/ports/storage.port';
 import { UserRepository } from '@/domain/users';
 
 import { AdaptersModule } from '../../injections/adapters.module';
@@ -33,9 +34,12 @@ import { UserProfileController } from './controllers/user-profile/user-profile.c
     JwtStrategy,
     {
       provide: CreateUserService,
-      useFactory: (usersRepository: UserRepository, hasherPort: HasherPort) =>
-        new CreateUserService(usersRepository, hasherPort),
-      inject: [UserRepository, HasherPort],
+      useFactory: (
+        usersRepository: UserRepository,
+        hasherPort: HasherPort,
+        storagePort: StoragePort,
+      ) => new CreateUserService(usersRepository, hasherPort, storagePort),
+      inject: [UserRepository, HasherPort, StoragePort],
     },
     {
       provide: DeleteUserService,
@@ -57,9 +61,12 @@ import { UserProfileController } from './controllers/user-profile/user-profile.c
     },
     {
       provide: UpdateUserService,
-      useFactory: (usersRepository: UserRepository, hasherPort: HasherPort) =>
-        new UpdateUserService(usersRepository, hasherPort),
-      inject: [UserRepository, HasherPort],
+      useFactory: (
+        usersRepository: UserRepository,
+        hasherPort: HasherPort,
+        storagePort: StoragePort,
+      ) => new UpdateUserService(usersRepository, hasherPort, storagePort),
+      inject: [UserRepository, HasherPort, StoragePort],
     },
   ],
 })

@@ -1,4 +1,12 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -43,7 +51,14 @@ export class CreateUserController {
   })
   @Roles({ action: Actions.CREATE, subjects: User })
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async handle(@Body() createUserDTO: CreateUserBody): Promise<void> {
-    await this.createUserService.execute(createUserDTO);
+  @UseInterceptors(FileInterceptor('avatar'))
+  async handle(
+    @Body() createUserDTO: CreateUserBody,
+    @UploadedFile() avatar: Express.Multer.File,
+  ): Promise<void> {
+    await this.createUserService.execute({
+      ...createUserDTO,
+      avatar,
+    });
   }
 }

@@ -1,25 +1,25 @@
 services:
-  going2test-api:
-    container_name: going2test-api
-    build:
-      context: ../..
-      dockerfile: docker/dev/Dockerfile
-    tty: true
-    ports:
-      - 9090:9090
-    networks:
-      - going2test_network
-    volumes:
-      - ../../.:/usr/app/
-    env_file: ../../.env
-    environment:
-      - PORT=9090
-      - DATABASE_URL=postgres://postgres:postgres@going2test-db:5432/going2db
-    depends_on:
-      - 'going2test-db'
-    links:
-      - 'going2test-db'
-    entrypoint: wait-for going2test-db:5432 -t 40 -- pnpm start:dev
+  # going2test-api:
+  #   container_name: going2test-api
+  #   build:
+  #     context: ../..
+  #     dockerfile: docker/dev/Dockerfile
+  #   tty: true
+  #   ports:
+  #     - 9090:9090
+  #   networks:
+  #     - going2test_network
+  #   volumes:
+  #     - ../../.:/usr/app/
+  #   env_file: ../../.env
+  #   environment:
+  #     - PORT=9090
+  #     - DATABASE_URL=postgres://postgres:postgres@going2test-db:5432/going2db
+  #   depends_on:
+  #     - 'going2test-db'
+  #   links:
+  #     - 'going2test-db'
+  #   entrypoint: wait-for going2test-db:5432 -t 40 -- pnpm start:dev
   going2test-db:
     image: postgres:16.0-alpine
     container_name: going2test-db
@@ -36,6 +36,25 @@ services:
     volumes:
       - pgdata:/data/postgres
 
+  going2test-minio:
+    container_name: going2test-minio
+    build:
+      context: ../../
+      dockerfile: docker/dev/Dockerfile.minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - going2test_network
+    volumes:
+      - 'minio_data:/data'
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=going2minio
+      - MINIO_ROOT_PASSWORD=going2minio
+      - MINIO_DEFAULT_BUCKETS=g2bucket
+      - MINIO_REGION=us-east-1
+
 networks:
   going2test_network:
     name: going2test_network
@@ -43,4 +62,6 @@ networks:
 
 volumes:
   pgdata:
+    driver: local
+  minio_data:
     driver: local

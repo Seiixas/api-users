@@ -1,3 +1,5 @@
+import { StoragePort } from '@/core/ports/storage.port';
+
 import { HasherPort } from '../../../../../core/ports';
 import { CoreService } from '../../../../../core/shared/services/core.service';
 import { EUserRoles, User, UserRepository } from '../../../../../domain/users';
@@ -7,6 +9,7 @@ type Request = {
   name: string;
   email: string;
   password: string;
+  avatar?: Express.Multer.File;
   role?: EUserRoles;
 };
 
@@ -16,6 +19,7 @@ export class CreateUserService implements CoreService<Request, Response> {
   constructor(
     private readonly usersRepository: UserRepository,
     private readonly hasherPort: HasherPort,
+    private readonly storagePort: StoragePort,
   ) {}
 
   async execute(payload: Request): Promise<Response> {
@@ -39,6 +43,17 @@ export class CreateUserService implements CoreService<Request, Response> {
       password: hashedPassword,
       ...(payload.role && { role: payload.role }),
     });
+
+    if (payload.avatar) {
+      const avatarUrl = await this.storagePort.putFile({
+        file: payload.avatar.buffer,
+        filename: `${user.id}-${new Date().toISOString()}.png`,
+        contentType: payload.avatar.mimetype,
+        isPublic: true,
+        contentDisposition: 'inline; filename=filename.png',
+      });
+      user.avatar = avatarUrl;
+    }
 
     await this.usersRepository.store(user);
 

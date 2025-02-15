@@ -7,8 +7,11 @@ import {
   Param,
   Put,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -43,10 +46,12 @@ export class UpdateUserController {
   @Roles({ action: Actions.EDIT_ANY, subjects: User })
   @Roles({ action: Actions.EDIT_ALL, subjects: User })
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('avatar'))
   async handle(
     @Param('id') id: string,
     @Body() body: UpdateUserBody,
     @Request() request: any,
+    @UploadedFile() avatar: Express.Multer.File,
   ) {
     const user = request.user;
     if (user.role !== EUserRoles.ADMIN && body.role)
@@ -54,6 +59,6 @@ export class UpdateUserController {
         'Você não tem permissão para alterar o cargo do usuário.',
       );
 
-    await this.updateUserService.execute({ id, ...body });
+    await this.updateUserService.execute({ id, avatar, ...body });
   }
 }

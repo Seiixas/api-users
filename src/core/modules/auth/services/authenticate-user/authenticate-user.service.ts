@@ -17,6 +17,7 @@ type Response = {
     id: string;
     name: string;
     email: string;
+    avatar?: string;
     role: EUserRoles;
   };
 };
@@ -56,6 +57,7 @@ class AuthenticateUserService {
         id: user.id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
         role: user.role,
       },
     };
