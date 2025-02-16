@@ -32,6 +32,9 @@ class EnvVariables {
   AWS_ENDPOINT: string;
 
   @IsString()
+  AWS_ENDPOINT_S3: string;
+
+  @IsString()
   MAIL_FROM: string;
 
   @IsString()

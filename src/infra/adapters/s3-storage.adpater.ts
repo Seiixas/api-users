@@ -12,7 +12,7 @@ export class S3StorageAdapter implements StoragePort {
 
   constructor() {
     this.s3 = new S3Client({
-      endpoint: Env.AWS_ENDPOINT,
+      endpoint: Env.AWS_ENDPOINT_S3,
       region: Env.AWS_REGION,
       credentials: {
         accessKeyId: Env.AWS_ACCESS_KEY_ID,

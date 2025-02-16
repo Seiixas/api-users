@@ -6,6 +6,7 @@ export type ListUsersToViewResponse = [
     name: string;
     email: string;
     role: string;
+    is_activated: boolean;
     created_at: Date;
     updated_at: Date;
   }[],
@@ -20,6 +21,7 @@ export class ListUsersToView {
         name: u.name,
         email: u.email,
         role: u.role,
+        is_activated: u.isActivated,
         created_at: u.createdAt,
         updated_at: u.updatedAt,
       })),

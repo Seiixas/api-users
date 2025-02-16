@@ -16,6 +16,7 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@going2test-db:5432/going2db
       - REDIS_URL=going2test-cache
       - MAIL_HOST=going2test-mailhog
+      - AWS_ENDPOINT_S3=http://going2test-minio:9000
     depends_on:
       - 'going2test-db'
     links:
