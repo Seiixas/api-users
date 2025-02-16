@@ -1,5 +1,5 @@
 import * as ejs from 'ejs';
-import { resolve } from 'path';
+import * as path from 'path';
 
 import { CachePort } from '@/core/ports/cache.port';
 import { MailPort } from '@/core/ports/mail.port';
@@ -64,7 +64,7 @@ export class CreateUserService implements CoreService<Request, Response> {
 
     await this.usersRepository.store(user);
 
-    const welcomeMailTemplate = resolve(
+    const welcomeMailTemplate = path.resolve(
       __dirname,
       '..',
       '..',

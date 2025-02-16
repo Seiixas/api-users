@@ -3,6 +3,7 @@ import { User, UserRepository } from '@/domain/users';
 import { MemoryCacheAdapter } from '@/infra/adapters/memory-cache.adapter';
 import { InMemoryUserRepository } from '@/infra/persistence/in-memory/in-memory-users.repository';
 
+import { INVALID_ACTIVATION_CODE_ERROR } from '../../errors/invalid-activation-code.error';
 import { ActivateUserService } from './activate-user.service';
 
 let usersRepository: UserRepository;
@@ -42,7 +43,12 @@ describe('Activate User Use Case', () => {
       },
     });
 
-    expect(true).toBe(true);
-    // expect(user.isActivated).toBe(true);
+    expect(user.isActivated).toBe(true);
+  });
+
+  it('should not be able to activate a user with an invalid code', () => {
+    expect(async () => {
+      await activateUserService.execute({ code: 'invalid-code' });
+    }).rejects.toBe(INVALID_ACTIVATION_CODE_ERROR);
   });
 });

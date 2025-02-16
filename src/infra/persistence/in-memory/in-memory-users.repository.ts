@@ -51,6 +51,9 @@ export class InMemoryUserRepository implements UserRepository {
     this.users[index].email = data.email || this.users[index].email;
     this.users[index].password = data.password || this.users[index].password;
     this.users[index].role = data.role || this.users[index].role;
+    this.users[index].isActivated =
+      data.isActivated || this.users[index].isActivated;
+    this.users[index].avatar = data.avatar || this.users[index].avatar;
 
     return this.users[index];
   }

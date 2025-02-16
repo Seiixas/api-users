@@ -19,13 +19,11 @@ export class ActivateUserService implements CoreService<Request, Response> {
   async execute({ code }: Request): Promise<Response> {
     const codeExists = await this.cachePort.get(code);
 
-    console.log('codeExists =>> ', codeExists);
-
     if (!codeExists) throw INVALID_ACTIVATION_CODE_ERROR;
 
     const userId = codeExists;
     await this.usersRepository.update(userId, { isActivated: true });
 
-    this.cachePort.delete(code);
+    await this.cachePort.delete(code);
   }
 }

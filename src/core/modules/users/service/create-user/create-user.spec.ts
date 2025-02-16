@@ -1,3 +1,6 @@
+import * as ejs from 'ejs';
+import * as path from 'path';
+
 import { CachePort } from '@/core/ports/cache.port';
 import { MailPort } from '@/core/ports/mail.port';
 import { StoragePort } from '@/core/ports/storage.port';
@@ -22,14 +25,22 @@ let usersRepository: UserRepository;
 let storagePort: StoragePort;
 let cachePort: CachePort;
 let mailAdapter: MailPort;
+jest.mock('path');
+jest.mock('ejs');
 
 describe('Create User Use Case', () => {
+  beforeAll(() => {
+    jest.spyOn(path, 'resolve').mockReturnValue('/mocked/path/welcome.ejs');
+    jest
+      .spyOn(ejs, 'renderFile')
+      .mockImplementation(async (_file, _data) => '<h1>Email Mockado</h1>');
+  });
+
   beforeEach(() => {
     usersRepository = new InMemoryUserRepository();
     hasherAdapter = new InMemoryHasherAdapter();
     storagePort = new LocalStorageAdapter();
     cachePort = new MemoryCacheAdapter();
-
     mailAdapter = new MockedMail();
 
     createUserService = new CreateUserService(
