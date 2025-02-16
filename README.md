@@ -93,6 +93,8 @@ Ao executer este comando, os seguintes containers serão inicializados:
 | `MailHog`  | Container emulador de serviço de e-mail.                   |
 | `Redis`    | Container de banco de dados (cache).                       |
 
+☕️ **Aguarde!**: O entrypoint do serviço de API irá instalar os pacotes e rodar as migrations para depois ser inicializado. Sendo assim, pegue um cafézinho (ou chá, se for de seu gosto) e aguarde o container inicializar na porta `3000`. Caso queira ver o andamento do build, utilize o comando `docker logs going2test-api -f`.
+
 ⚠️ **Importante**: Em determinados momentos, a aplicação Node.JS fará upload de arquivos e envio de e-mails. Para não utilizar de serviços reais utilizei de serviços locais de emulação. **Sendo assim**, quando um e-mail for enviado, a caixa de entrada estará localizada no host `http://localhost:8025`, enquanto os arquivos no bucket s3 local `http://localhost:9001` (onde login e senha são o mesmo valor: going2minio).
 
 ### 🎲 Banco de Dados
