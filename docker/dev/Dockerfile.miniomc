@@ -10,6 +10,6 @@ COPY --from=minio/mc /usr/bin/mc /usr/bin/mc
 RUN echo '#!/bin/sh' > /usr/bin/init.sh && \
   echo '/usr/bin/mc alias set myminio http://going2test-minio:9000 going2minio going2minio' >> /usr/bin/init.sh && \
   echo '/usr/bin/mc mb myminio/g2bucket' >> /usr/bin/init.sh && \
-  echo '/usr/bin/mc policy set public myminio/g2bucket' >> /usr/bin/init.sh && \
+  echo '/usr/bin/mc anonymous set public myminio/g2bucket' >> /usr/bin/init.sh && \
   echo 'exit 0' >> /usr/bin/init.sh && \
   chmod +x /usr/bin/init.sh
