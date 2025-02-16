@@ -4,6 +4,7 @@ import * as path from 'path';
 import { CachePort } from '@/core/ports/cache.port';
 import { MailPort } from '@/core/ports/mail.port';
 import { StoragePort } from '@/core/ports/storage.port';
+import { Env } from '@/shared/env';
 
 import { HasherPort } from '../../../../../core/ports';
 import { CoreService } from '../../../../../core/shared/services/core.service';
@@ -84,7 +85,7 @@ export class CreateUserService implements CoreService<Request, Response> {
     this.cachePort.set(activationCode, user.id, ONE_HOURS_IN_SECONDS);
 
     const emailBody = await ejs.renderFile(welcomeMailTemplate, {
-      code: activationCode,
+      link: `${Env.SERVER_URL}/users/activate/${activationCode}`,
     });
 
     this.mailPort.sendMail({
