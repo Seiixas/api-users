@@ -1,25 +1,26 @@
 services:
-  # going2test-api:
-  #   container_name: going2test-api
-  #   build:
-  #     context: ../..
-  #     dockerfile: docker/dev/Dockerfile
-  #   tty: true
-  #   ports:
-  #     - 9090:9090
-  #   networks:
-  #     - going2test_network
-  #   volumes:
-  #     - ../../.:/usr/app/
-  #   env_file: ../../.env
-  #   environment:
-  #     - PORT=9090
-  #     - DATABASE_URL=postgres://postgres:postgres@going2test-db:5432/going2db
-  #   depends_on:
-  #     - 'going2test-db'
-  #   links:
-  #     - 'going2test-db'
-  #   entrypoint: wait-for going2test-db:5432 -t 40 -- pnpm start:dev
+  going2test-api:
+    container_name: going2test-api
+    build:
+      context: ../..
+      dockerfile: docker/dev/Dockerfile
+    tty: true
+    ports:
+      - 3000:3000
+    networks:
+      - going2test_network
+    volumes:
+      - ../../.:/usr/app/
+    env_file: ../../.env
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@going2test-db:5432/going2db
+      - REDIS_URL=going2test-cache
+      - MAIL_HOST=going2test-mailhog
+    depends_on:
+      - 'going2test-db'
+    links:
+      - 'going2test-db'
+    entrypoint: wait-for going2test-db:5432 -t 40 -- npm run migration-n-run
   going2test-db:
     image: postgres:16.0-alpine
     container_name: going2test-db
@@ -30,16 +31,15 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=going2db
     ports:
-      - 5450:5450
+      - 5450:5432
     networks:
       - going2test_network
     volumes:
       - pgdata:/data/postgres
   going2test-minio:
+    image: minio/minio
     container_name: going2test-minio
-    build:
-      context: ../../
-      dockerfile: docker/dev/Dockerfile.minio
+    tty: true
     ports:
       - '9000:9000'
       - '9001:9001'
@@ -47,12 +47,26 @@ services:
       - going2test_network
     volumes:
       - 'minio_data:/data'
-    command: server /data --console-address ":9001"
+    command: minio server /data --console-address ":9001"
     environment:
       - MINIO_ROOT_USER=going2minio
       - MINIO_ROOT_PASSWORD=going2minio
-      - MINIO_DEFAULT_BUCKETS=g2bucket
       - MINIO_REGION=us-east-1
+  create-minio-buckets:
+    image: minio/mc
+    depends_on:
+      - going2test-minio
+    links:
+      - going2test-minio
+    networks:
+      - going2test_network
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://going2test-minio:9000 going2minio going2minio;
+      /usr/bin/mc mb myminio/g2bucket;
+      /usr/bin/mc policy set public myminio/g2bucket;
+      exit 0;
+      "
   going2test-mailhog:
     container_name: going2test-mailhog
     image: mailhog/mailhog:latest
@@ -60,6 +74,8 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
+    networks:
+      - going2test_network
   going2test-cache:
     container_name: going2test-cache
     image: redis:7.2.1-alpine
