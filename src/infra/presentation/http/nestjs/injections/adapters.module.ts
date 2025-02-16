@@ -6,7 +6,7 @@ import { CachePort } from '@/core/ports/cache.port';
 import { JwtPort } from '@/core/ports/jwt.port';
 import { MailPort } from '@/core/ports/mail.port';
 import { StoragePort } from '@/core/ports/storage.port';
-import { HasherProviderBcrypt } from '@/infra/adapters/bcrypt-hasher.adapter';
+import { HasherProviderBcryptJs } from '@/infra/adapters/bcryptjs-hasher.adapter';
 import { InMemoryHasherAdapter } from '@/infra/adapters/hasher.adapter';
 import { InMemoryJwtAdapter } from '@/infra/adapters/jwt.adapter';
 import { NestJwtProvider } from '@/infra/adapters/nestjs-jwt.adapter';
@@ -29,7 +29,7 @@ const _inMemoryProviders: Provider[] = [
 const providers: Provider[] = [
   {
     provide: HasherPort,
-    useClass: HasherProviderBcrypt,
+    useClass: HasherProviderBcryptJs,
   },
   {
     provide: JwtPort,
