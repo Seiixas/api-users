@@ -1,99 +1,96 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 👨‍💻 CRUD de Usuários (com alto teor de tecnologia)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![NodeJS logo](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![Jest logo](https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Postgres logo](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![Amazon S3](https://img.shields.io/badge/Amazon%20S3-FF9900?style=for-the-badge&logo=amazons3&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<img src=".github/readme/thumbnail.png" alt="Documentação da aplicação em Swagger">
 
-## Description
+> CRUD simples de usuários, porém com um alto teor de tecnologia. Empregando conhecimentos sobre Redis, buckets S3, testes unitários, Docker e outros.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 💻 Pré-requisitos
 
-## Project setup
+Antes de começar, verifique se você atende aos seguintes requisitos:
 
-```bash
-$ pnpm install
+- 🐋 Docker
+- 🚪 Portas: 3000 (api), 3001 (web), 5450 (postgres),9000 e 9001 (minio), 1025 e 8025 (mailhog) disponíveis.
+
+## 🚀 Instalando
+
+### 🧰 Variáveis de ambiente
+
+O formato das variáveis de ambiente encontra-se no arquivo `.env.copy`.
+
+| Variável              | Definição                                                       |
+| --------------------- | --------------------------------------------------------------- |
+| PORT                  | Porta a qual esta API ira rodar.                                |
+| DATABASE_URL          | URL de conexão com banco de dados Postgres.                     |
+| SECRET                | Segredo para o hash do token JWT.                               |
+| SERVER_URL            | URL onde esta API está sendo executada.                         |
+| WEB_URL               | URL onde o front-end que consome esta API esta sendo executado. |
+| AWS_BUCKET_NAME       | Bucket onde os arquivos de imagem serao salvos.                 |
+| AWS_REGION            | Regiao do S3.                                                   |
+| AWS_ACCESS_KEY_ID     | Chave de acesso ao bucket S3.                                   |
+| AWS_SECRET_ACCESS_KEY | Segredo de acesso ao bucket S3.                                 |
+| AWS_ENDPOINT          | Local de acesso ao bucket S3.                                   |
+| MAIL_FROM             | Dominio de e-mail da API que enviar'á demais e-mails.           |
+| MAIL_HOST             | Host do provedor de envio de e-mails.                           |
+| MAIL_PORT             | Porta do provedor de envio de e-mails.                          |
+| MAIL_USER             | Usuario de acesso do provedor de e-mails.                       |
+| MAIL_PASS             | Senha de acesso do provedor de e-mails.                         |
+| REDIS_URL             | URL de conexao com banco de dados Redis                         |
+
+Apesar de não ser uma boa prática deixar estas informações públicas, por tratar-se de uma API de desenvolvimento e que não envolve dados reais, fique livre para copiar o arquivo `.env` abaixo:
+
+```
+SECRET=secret
+DATABASE_URL=postgres://postgres:postgres@localhost:5450/going2db
+PORT=3000
+SERVER_URL=http://localhost:3000
+WEB_URL=http://localhost:3001
+
+# Estou utilizando o MinIO como emulador do Bucket S3.
+AWS_BUCKET_NAME=g2bucket
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=going2minio
+AWS_SECRET_ACCESS_KEY=going2minio
+AWS_ENDPOINT=http://localhost:9000
+
+# Estou utilizando o MailHog como emulador de servidor de e-mails.
+MAIL_FROM=logoipsum@no-reply.com
+MAIL_HOST=localhost
+MAIL_PORT=1025
+MAIL_USER=dummyUser # Padrão do MailHog
+MAIL_PASS=dummyPass # Padrão do MailHog
+REDIS_URL=localhost
 ```
 
-## Compile and run the project
+### 🐳 Docker
 
-```bash
-# development
-$ pnpm run start
+Para começar é necessário inicializar todas as instâncias Docker da aplicação, para isso existe um atalho no `package.json`, então basta executar:
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+```
+npm run docker:build
 ```
 
-## Run tests
+Ao executer este comando, os seguintes containers serão inicializados:
 
-```bash
-# unit tests
-$ pnpm run test
+| Container | Definição                                                  |
+| --------- | ---------------------------------------------------------- |
+| API       | Container da aplicação Node.JS (API).                      |
+| Postgres  | Container de banco de dados.                               |
+| MinIO     | Container emulador de bucket S3.                           |
+| MinIO/MC  | Container para utilizar o CLI do MinIO para criar buckets. |
+| MailHog   | Container emulador de servi'ço de e-mail.                  |
+| Redis     | Container de banco de dados (cache).                       |
 
-# e2e tests
-$ pnpm run test:e2e
+⚠️ **Importante**: Em determinados momentos, a aplicação Node.JS fará upload de arquivos e envio de e-mails. Para não utilizar de serviços reais utilizei de serviços locais de emulação. **Sendo assim**, quando um e-mail for enviado, a caixa de entrada estará localizada no host `http://localhost:8025`, enquanto os arquivos no bucket s3 local `http://localhost:9001` (onde login e senha são o mesmo valor: going2minio).
 
-# test coverage
-$ pnpm run test:cov
-```
+## 📕 Documentação
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ pnpm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Pode ficar tranquilo! Toda a documentação da aplicação foi feita utilizando o Swagger e estará disponível na rota `/docs` (`http://localhost:3000/docs`) e poderá ser importado ao seu Postman, Insomnia, Bruno ou outros.
