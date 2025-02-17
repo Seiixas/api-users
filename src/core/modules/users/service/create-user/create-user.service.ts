@@ -65,19 +65,36 @@ export class CreateUserService implements CoreService<Request, Response> {
 
     await this.usersRepository.store(user);
 
-    const welcomeMailTemplate = path.resolve(
-      __dirname,
-      '..',
-      '..',
-      '..',
-      '..',
-      '..',
-      '..',
-      '..',
-      'assets',
-      'mail-templates',
-      'welcome.ejs',
-    );
+    let welcomeMailTemplate: string;
+
+    if (process.env.NODE_ENV === 'test') {
+      welcomeMailTemplate = path.resolve(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        '..',
+        '..',
+        '..',
+        'assets',
+        'mail-templates',
+        'welcome.ejs',
+      );
+    } else {
+      welcomeMailTemplate = path.resolve(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        '..',
+        '..',
+        '..',
+        '..',
+        'assets',
+        'mail-templates',
+        'welcome.ejs',
+      );
+    }
 
     const activationCode = crypto.randomUUID().split('-')[0];
 

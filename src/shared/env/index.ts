@@ -1,14 +1,21 @@
 import 'dotenv/config';
 
 import { plainToInstance } from 'class-transformer';
-import { IsNumber, IsString, validateSync } from 'class-validator';
+import { IsNumber, IsOptional, IsString, validateSync } from 'class-validator';
 
 class EnvVariables {
+  @IsString()
+  @IsOptional()
+  NODE_ENV?: string;
+
   @IsNumber()
   PORT: number;
 
   @IsString()
   DATABASE_URL: string;
+
+  @IsString()
+  DATABASE_TESTING_URL: string;
 
   @IsString()
   SECRET: string;
@@ -74,4 +81,5 @@ function validateEnv(config: Record<string, unknown>) {
   return validatedConfig;
 }
 
-export const Env = validateEnv(process.env);
+export const Env =
+  process.env.NODE_ENV === 'test' ? process.env : validateEnv(process.env);

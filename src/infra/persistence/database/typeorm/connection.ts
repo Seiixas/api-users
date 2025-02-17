@@ -9,7 +9,10 @@ const entitiesDir = resolve(__dirname, 'entities', '*{.ts,.js}');
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  url: Env.DATABASE_URL,
+  url:
+    Env.NODE_ENV && Env.NODE_ENV === 'test'
+      ? Env.DATABASE_TESTING_URL
+      : Env.DATABASE_URL,
   migrations: [migrationsDir],
   entities: [entitiesDir],
   synchronize: false,

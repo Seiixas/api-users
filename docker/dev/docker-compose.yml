@@ -14,6 +14,7 @@ services:
     env_file: ../../.env
     environment:
       - DATABASE_URL=postgres://postgres:postgres@going2test-db:5432/going2db
+      - DATABASE_TESTING_URL=postgres://postgres:postgres@going2test-testing-db:5432/going2db-test
       - REDIS_URL=going2test-cache
       - MAIL_HOST=going2test-mailhog
       - AWS_ENDPOINT_S3=http://going2test-minio:9000
@@ -37,6 +38,21 @@ services:
       - going2test_network
     volumes:
       - pgdata:/data/postgres
+  going2test-testing-db:
+    image: postgres:16.0-alpine
+    container_name: going2test-testing-db
+    tty: true
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=going2db-test
+    ports:
+      - 5451:5432
+    networks:
+      - going2test_network
+    volumes:
+      - pgdata-test:/data/postgres
   going2test-minio:
     image: minio/minio
     container_name: going2test-minio
@@ -92,6 +108,8 @@ networks:
 
 volumes:
   pgdata:
+    driver: local
+  pgdata-test:
     driver: local
   minio_data:
     driver: local

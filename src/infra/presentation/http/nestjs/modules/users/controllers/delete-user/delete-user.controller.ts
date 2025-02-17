@@ -1,4 +1,4 @@
-import { Controller, Delete, Param, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpCode, Param, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiInternalServerErrorResponse,
@@ -24,6 +24,7 @@ export class DeleteUserController {
   constructor(private readonly deleteUserService: DeleteUserService) {}
 
   @Delete(':id')
+  @HttpCode(204)
   @ApiOperation({ summary: 'Deletar usuário.' })
   @ApiNoContentResponse()
   @ApiInternalServerErrorResponse({ description: 'Erro interno do servidor.' })

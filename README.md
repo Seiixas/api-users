@@ -31,6 +31,7 @@ O formato das variáveis de ambiente encontra-se no arquivo `.env.copy`.
 | ----------------------- | --------------------------------------------------------------- |
 | `PORT`                  | Porta a qual esta API irá rodar.                                |
 | `DATABASE_URL`          | URL de conexão com banco de dados Postgres.                     |
+| `DATABASE_TESTING_URL`  | URL de conexão com banco de dados Postgres para os testes E2E   |
 | `SECRET`                | Segredo para o hash do token JWT.                               |
 | `SERVER_URL`            | URL onde esta API está sendo executada.                         |
 | `WEB_URL`               | URL onde o front-end que consome esta API está sendo executado. |
@@ -52,6 +53,7 @@ Apesar de não ser uma boa prática deixar estas informações públicas, por tr
 ```
 SECRET=secret
 DATABASE_URL=postgres://postgres:postgres@localhost:5450/going2db
+DATABASE_TESTING_URL=postgres://postgres:postgres@localhost:5451/going2db-test
 PORT=3000
 SERVER_URL=http://localhost:3000
 WEB_URL=http://localhost:3001
@@ -88,6 +90,7 @@ Ao executer este comando, os seguintes containers serão inicializados:
 | ---------- | ---------------------------------------------------------- |
 | `API`      | Container da aplicação Node.JS (API).                      |
 | `Postgres` | Container de banco de dados.                               |
+| `Postgres` | Container de banco de dados para os testes E2E.            |
 | `MinIO`    | Container emulador de bucket S3.                           |
 | `MinIO/MC` | Container para utilizar o CLI do MinIO para criar buckets. |
 | `MailHog`  | Container emulador de serviço de e-mail.                   |
@@ -97,19 +100,24 @@ Ao executer este comando, os seguintes containers serão inicializados:
 
 ⚠️ **Importante**: Em determinados momentos, a aplicação Node.JS fará upload de arquivos e envio de e-mails. Para não utilizar de serviços reais utilizei de serviços locais de emulação. **Sendo assim**, quando um e-mail for enviado, a caixa de entrada estará localizada no host `http://localhost:8025`, enquanto os arquivos no bucket s3 local `http://localhost:9001` (onde login e senha são o mesmo valor: going2minio).
 
+### 🧪 Testes
+
+Testes unitários e de integração foram feitos para melhorar a entrega e confiabilidade do projeto. Para rodar os testes, utilize o script `npm run test`.
+
+⚠️ **Importante**: Testes de integração (E2E) podem falhar em questão de acesso simultâneo ao banco. Para reduzir isso, utilizei a flag `--runInBand` para rodar um teste de cada vez, porém eventualmente esse erro acontece.
+
 ### 🎲 Banco de Dados
 
 #### 🌱 Seeds
 
 Para facilitar a vida de todos nós, já criei uma `seed` que insere três usuários no banco de dados prontos para acesso no front-end.
 
-Dessa forma, basta rodar o comando `npm run migration:seed` e ele irá gerar os três usuários no banco:
-
-| E-mail          | Senha de acesso    | Permissão |
+Ao rodar as migrations do projeto (já definida no script do Docker Compose), os seguintes usuários serão criados no banco:
+| E-mail | Senha de acesso | Permissão |
 | --------------- | ------------------ | --------- |
-| admin@admin.com | my-secret-password | ADMIN     |
-| man@man.com     | my-secret-password | MANAGER   |
-| std@std.com     | my-secret-password | STANDARD  |
+| admin@admin.com | my-secret-password | ADMIN |
+| man@man.com | my-secret-password | MANAGER |
+| std@std.com | my-secret-password | STANDARD |
 
 #### ⚡️ Acesso
 
